@@ -1,31 +1,34 @@
+import os
+from datetime import timedelta
 from pathlib import Path
+
+from dotenv import load_dotenv
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 load_dotenv(".env")
-
-
 SECRET_KEY = os.getenv("SECRET_KEY")
 DEBUG = bool(int(os.getenv("DEBUG", default=0)))
 ALLOWED_HOSTS = os.getenv("DJANGO_ALLOWED_HOSTS").split(" ")
 
 
 # Application definition
-
+# Requirements d
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
-    'django.contrib.staticfiles',# Third Party
+    'django.contrib.staticfiles',
+    # Third Party
     "rest_framework",
-    "rest_framework_simplejwt",
+    # "rest_framework_simplejwt",
     "drf_yasg",
     # "debug_toolbar",
     # Mine
-    "Auth",
+    # "Auth",
 ]
 
 MIDDLEWARE = [
@@ -63,9 +66,13 @@ WSGI_APPLICATION = 'Main.wsgi.application'
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+    "default": {
+        "ENGINE": os.getenv("DB_ENGINE", "django.db.backends.sqlite3"),
+        "NAME": os.getenv("DB_NAME", BASE_DIR / "db.sqlite3"),
+        "USER": os.getenv("DB_USER", "user"),
+        "PASSWORD": os.getenv("DB_PASSWORD", "password"),
+        "HOST": os.getenv("DB_HOST", "localhost"),
+        "PORT": os.getenv("DB_PORT", "5432"),
     }
 }
 
@@ -101,12 +108,20 @@ USE_I18N = True
 USE_TZ = True
 
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/5.0/howto/static-files/
-
-STATIC_URL = 'static/'
+STATIC_URL = "static/"
+STATIC_ROOT = "staticfiles/"
 
 # Default primary key field type
-# https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
+# https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
-DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+SIMPLE_JWT = {
+    "ACCESS_TOKEN_LIFETIME": timedelta(days=100),
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=100),
+    "ALGORITHM": "HS256",
+    "SIGNING_KEY": "Aqoldi_Backend",
+    "AUTH_HEADER_TYPES": ("Bearer",),
+    "AUTH_HEADER_NAME": "Authorization",
+    "TOKEN_OBTAIN_SERIALIZER": "Auth.v1.Serializer.MyTokenObtainPairSerializer",
+    # "USER_ID_FIELD": "UserID",
+}
