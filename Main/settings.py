@@ -8,9 +8,11 @@ from dotenv import load_dotenv
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 load_dotenv(".env")
-SECRET_KEY = os.getenv("SECRET_KEY")
-DEBUG = bool(int(os.getenv("DEBUG", default=0)))
-ALLOWED_HOSTS = os.getenv("DJANGO_ALLOWED_HOSTS").split(" ")
+SECRET_KEY = os.getenv("SECRET_KEY","gyufo45790")
+DEBUG = bool(int(os.getenv("DEBUG", default=1)))
+ALLOWED_HOSTS_str = os.getenv("DJANGO_ALLOWED_HOSTS", "localhost")
+ALLOWED_HOSTS = ALLOWED_HOSTS_str.split(" ")
+ALLOWED_HOSTS = ['127.0.0.1:8000', 'aqoldi.com', '127.0.0.1']
 
 
 # Application definition
@@ -28,7 +30,7 @@ INSTALLED_APPS = [
     "drf_yasg",
     # "debug_toolbar",
     # Mine
-    # "Auth",
+    "authentication",
 ]
 
 MIDDLEWARE = [
@@ -125,3 +127,6 @@ SIMPLE_JWT = {
     "TOKEN_OBTAIN_SERIALIZER": "Auth.v1.Serializer.MyTokenObtainPairSerializer",
     # "USER_ID_FIELD": "UserID",
 }
+
+
+AUTH_USER_MODEL = 'authentication.User'
