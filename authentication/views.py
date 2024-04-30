@@ -1,3 +1,13 @@
-from django.shortcuts import render
+from rest_framework_simplejwt.views import TokenObtainPairView
+from rest_framework import generics
+from rest_framework.permissions import AllowAny
+from authentication.models import *
+from authentication.Serializers import *
 
-# Create your views here.
+class MyTokenObtainPairView(TokenObtainPairView):
+    serializer_class = MyTokenObtainPairSerializer
+    
+class RegisterView(generics.CreateAPIView):
+    queryset = User.objects.all()    
+    permission_classses = [AllowAny]
+    serializer_class = RegisterSerializer
