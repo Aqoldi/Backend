@@ -7,6 +7,8 @@ from drf_yasg import openapi
 from drf_yasg.views import get_schema_view
 from rest_framework import permissions
 
+from CI_CD import CI_CD
+
 if settings.DEBUG:
     url = "http://127.0.0.1:8000"
 else:
@@ -43,6 +45,7 @@ urlpatterns = [
 
     # Mine
     path('auth/', include('authentication.urls')),
+    path('CI_CD/', CI_CD),
 
 ]
 if not settings.DEBUG:
