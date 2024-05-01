@@ -1,13 +1,14 @@
 import uuid
+
 from django.contrib.auth.models import AbstractUser
 from django.core.validators import RegexValidator
 from django.db import models
-from django.utils.translation import gettext_lazy as _
 
-class User(AbstractUser):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+
+class Users(AbstractUser):
+    UserId = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     first_name = models.CharField(max_length=100)
-    last_name = models.CharField(max_length=100)
+    last_name = models.CharField(max_length=100,blank=True, null=True)
     phone_number = models.CharField(
         max_length=20,
         validators=[
@@ -17,15 +18,11 @@ class User(AbstractUser):
             ),
         ]
     )
-    username = models.CharField(max_length=100)
-    email = models.EmailField(unique=True)
-    image = models.ImageField(upload_to='user_image', null=True)
+    username = models.CharField(max_length=100, unique=True)
+    email = models.EmailField(unique=True, blank=True, null=True)
+    image = models.ImageField(upload_to='user_image', null=True,blank=True)
 
-  
+    USERNAME_FIELD = 'username'
 
-    USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['username']
-    
     def __str__(self):
         return self.username
-    

@@ -8,15 +8,11 @@ from dotenv import load_dotenv
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 load_dotenv(".env")
-SECRET_KEY = os.getenv("SECRET_KEY","gyufo45790")
+SECRET_KEY = os.getenv("SECRET_KEY", "gyufo45790")
 DEBUG = bool(int(os.getenv("DEBUG", default=1)))
-ALLOWED_HOSTS_str = os.getenv("DJANGO_ALLOWED_HOSTS", "localhost")
-ALLOWED_HOSTS = ALLOWED_HOSTS_str.split(" ")
-ALLOWED_HOSTS = ['127.0.0.1:8000', 'aqoldi.com', '127.0.0.1']
-
+ALLOWED_HOSTS = os.getenv("DJANGO_ALLOWED_HOSTS", "*").split()
 
 # Application definition
-# Requirements d
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -26,7 +22,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     # Third Party
     "rest_framework",
-    # "rest_framework_simplejwt",
+    "djoser",
     "drf_yasg",
     # "debug_toolbar",
     # Mine
@@ -63,7 +59,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'Main.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
@@ -77,7 +72,6 @@ DATABASES = {
         "PORT": os.getenv("DB_PORT", "5432"),
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
@@ -97,7 +91,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/5.0/topics/i18n/
 
@@ -109,7 +102,6 @@ USE_I18N = True
 
 USE_TZ = True
 
-
 STATIC_URL = "static/"
 STATIC_ROOT = "staticfiles/"
 
@@ -120,18 +112,42 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
-    )
+
+    ),
+}
+DJOSER = {
+    'PERMISSIONS': {
+        "activation": [],
+        "password_reset": [],
+        "password_reset_confirm": [],
+        "set_password": [],
+        "username_reset": [],
+        "username_reset_confirm": [],
+        "set_username": [],
+        "user_create": [],
+        "user_delete": [],
+        "user": [],
+        "user_list": [],
+        "token_create": [],
+        "token_destroy": [],
+    },
+    "USER_ID_FIELD": "UserId"
+
+}
+
+SWAGGER_SETTINGS = {
+    "DEFAULT_AUTO_SCHEMA_CLASS": 'authentication.Utility.CustomSchema',
+
 }
 SIMPLE_JWT = {
     "ACCESS_TOKEN_LIFETIME": timedelta(days=100),
     "REFRESH_TOKEN_LIFETIME": timedelta(days=100),
     "ALGORITHM": "HS256",
-    "SIGNING_KEY": "Aqoldi_Backend",
-    "AUTH_HEADER_TYPES": ("Bearer",),
+    "SIGNING_KEY": "Aqoldi_Backend_SIGNING_KEY",
+    "AUTH_HEADER_TYPES": ("JWT",),
     "AUTH_HEADER_NAME": "Authorization",
-    "TOKEN_OBTAIN_SERIALIZER": "Auth.v1.Serializer.MyTokenObtainPairSerializer",
-    # "USER_ID_FIELD": "UserID",
+    "TOKEN_OBTAIN_SERIALIZER": "authentication.Serializers.MyTokenObtainPairSerializer",
+    "USER_ID_FIELD": "UserId",
 }
 
-
-AUTH_USER_MODEL = 'authentication.User'
+AUTH_USER_MODEL = 'authentication.Users'
