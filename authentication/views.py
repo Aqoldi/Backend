@@ -7,7 +7,3 @@ from authentication.Serializers import *
 class MyTokenObtainPairView(TokenObtainPairView):
     serializer_class = MyTokenObtainPairSerializer
     
-class RegisterView(generics.CreateAPIView):
-    queryset = User.objects.all()    
-    permission_classses = [AllowAny]
-    serializer_class = RegisterSerializer
