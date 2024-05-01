@@ -8,6 +8,8 @@ from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
 class UserSerializer(serializers.ModelSerializer):
     id = serializers.UUIDField(read_only=True)
+    username = serializers.CharField(read_only=True)
+    image = serializers.ImageField(blank=True, null=True)
     class Meta:
         model = Users
         fields = ['id','first_name', 'last_name' ,'username', 'email','phone_number','image']

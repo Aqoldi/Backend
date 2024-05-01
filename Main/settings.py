@@ -130,6 +130,10 @@ DJOSER = {
         "user_list": [],
         "token_create": [],
         "token_destroy": [],
+        'SERIALIZERS': {
+            'user_create': 'authentication.Serializers.UserSerializer',
+            'user': 'authentication.Serializers.UserSerializer',
+        },
     },
     "USER_ID_FIELD": "UserId"
 
