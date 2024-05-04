@@ -19,10 +19,10 @@ class Users(AbstractUser):
         ]
     )
     username = models.CharField(max_length=100, unique=True)
-    email = models.EmailField(unique=True, blank=True, null=True)
+    email = models.EmailField(unique=True)
     image = models.ImageField(upload_to='user_image', null=True,blank=True)
 
-    USERNAME_FIELD = 'username'
+    USERNAME_FIELD = 'email'
 
     def __str__(self):
-        return self.username
+        return self.email

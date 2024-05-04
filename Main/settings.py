@@ -135,7 +135,11 @@ DJOSER = {
             'user': 'authentication.Serializers.UserSerializer',
         },
     },
-    "USER_ID_FIELD": "UserId"
+    "USER_ID_FIELD": "UserId",
+    "SERIALIZERS" : {
+        "user_create": "authentication.Serializers.CustomUserCreateSerializer",
+        "user": "authentication.Serializers.CustomUserCreateSerializer",
+    }
 
 }
 
